@@ -1,7 +1,13 @@
-import { sum } from './sum'
+import asyncTo from './asyncTo'
+import cloneDeep from './cloneDeep'
+import fileFormat from './fileFormat'
+import dataType from './dataType'
 
 const lib = {
-    sum
+    asyncTo,
+    cloneDeep,
+    fileFormat,
+    dataType,
 }
 
 export default lib

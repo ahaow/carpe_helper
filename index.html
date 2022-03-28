@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            height: 3000px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <button id="btn">点击</button> -->
+    <input type="text" id="text" placeholder=".....">
+    <span id="span"></span>
+    <script>
+        const text = document.getElementById('text')
+        const span = document.getElementById('span')
+        let obj = {
+            text: '',
+            age: 0,
+        }
+        console.log('obj', obj)
+
+        // function observer(obj, cb) {
+        //     let newObj = {}
+        //     Object.keys(obj).forEach((key) => {
+        //         Object.defineProperty(newObj, key, {
+        //             configurable: true,
+        //             enumerable: true,
+        //             get() {
+        //                 return obj[key]
+        //             },
+        //             set(value) {
+        //                 console.log(1)
+        //                 obj[key] = value
+        //                 cb(key, value)
+        //                 return 
+        //             }
+        //         })
+        //     })
+        //     return newObj
+        // }
+
+        function observer(obj, cb) {
+            return new Proxy(obj, {
+                get(target, key) {
+                    return target[key]
+                },
+                set(target, key, value) {
+                    target[key] = value
+                    cb(key, value)
+                    return 
+                }
+            })
+        }
+
+        const observerObj = observer(obj, (key, value) => {
+            console.log(`key: ${key} --- value: ${value}`)
+        })
+        console.log('observerObj.text', observerObj)
+
+        text.addEventListener('keyup', (e) => {
+            observerObj.text = e.target.value
+            span.innerHTML = observerObj.text
+        })
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

@@ -1,4 +1,5 @@
-export const sum = (x: number, y: number) => {
-  console.log("file 2");
+const sum = (x: number, y: number) => {
   return x + y;
 };
+
+export default sum 
