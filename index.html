@@ -2,10 +2,6 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <style>
         body {
             height: 3000px;
@@ -14,65 +10,61 @@
 </head>
 
 <body>
-    <!-- <button id="btn">点击</button> -->
-    <input type="text" id="text" placeholder=".....">
-    <span id="span"></span>
     <script>
-        const text = document.getElementById('text')
-        const span = document.getElementById('span')
-        let obj = {
-            text: '',
-            age: 0,
-        }
-        console.log('obj', obj)
 
-        // function observer(obj, cb) {
-        //     let newObj = {}
-        //     Object.keys(obj).forEach((key) => {
-        //         Object.defineProperty(newObj, key, {
-        //             configurable: true,
-        //             enumerable: true,
-        //             get() {
-        //                 return obj[key]
-        //             },
-        //             set(value) {
-        //                 console.log(1)
-        //                 obj[key] = value
-        //                 cb(key, value)
-        //                 return 
-        //             }
-        //         })
-        //     })
-        //     return newObj
+
+        // function currying(fn) {
+        //     // 存放每次调用的参数
+        //     let args = []
+
+        //     return function temp(...newArgs) {
+        //         if (newArgs.length) {
+        //             // 有参数就合并进去，然后返回自身
+        //             args = [...args, ...newArgs]
+        //             return temp
+        //         } else {
+        //             // 没有参数了，也就是最后一个了，执行累计结果操作并返回结果
+        //             let val = fn.apply(this, args)
+        //             args = []
+        //             return val
+        //         }
+        //     }
         // }
+        // const add = currying(reduce)
+        // const ad1 = add(1)(2)
+        // const ad2 = add(3)()
+        // console.log(ad2) // 6
 
-        function observer(obj, cb) {
-            return new Proxy(obj, {
-                get(target, key) {
-                    return target[key]
-                },
-                set(target, key, value) {
-                    target[key] = value
-                    cb(key, value)
-                    return 
+
+        function currying(func) {
+            return function curried(...args) {
+                if (args.length >= func.length) {
+                    return func.apply(this, args)
+                } else {
+                    return function (...args2) {
+                        return curried.apply(this, args.concat(args2))
+                    }
                 }
-            })
+            }
         }
 
-        const observerObj = observer(obj, (key, value) => {
-            console.log(`key: ${key} --- value: ${value}`)
-        })
-        console.log('observerObj.text', observerObj)
 
-        text.addEventListener('keyup', (e) => {
-            observerObj.text = e.target.value
-            span.innerHTML = observerObj.text
-        })
-
-
-
-
-
+        // function currying(fn) {
+        //     return function curried(args) {
+        //         if (args.length === fn.length) {
+        //             return fn.apply(this, args)
+        //         } else {
+        //             return function (...args2) {
+        //                 return curried.apply(this, args.concat(args2))
+        //             }
+        //         }
+        //     }
+        // }
+        function reduce(...args) {
+            return args.reduce((a, b) => a + b)
+        }
+        const add = currying(reduce)
+        console.log(add(1)(2))
 
     </script>
 </body>

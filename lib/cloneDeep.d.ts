@@ -1,2 +1,2 @@
-declare function cloneDeep(target: any, map?: Map<any, any>): any;
+declare function cloneDeep(source: any, hash?: WeakMap<object, any>): any;
 export default cloneDeep;
