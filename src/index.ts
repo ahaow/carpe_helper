@@ -1,15 +1,15 @@
 import cloneDeep from './cloneDeep'
-import fileFormat from './fileFormat'
 import dataType from './dataType'
 import debounce from './debounce'
 import throttle from './throttle'
+import urlParams from './urlParams'
 
 const lib = {
     cloneDeep,
-    fileFormat,
     dataType,
     debounce,
-    throttle
+    throttle,
+    urlParams
 }
 
 export default lib

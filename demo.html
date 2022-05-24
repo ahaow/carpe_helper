@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">+</button>
+    <script>
+        const btn = document.getElementById("btn")
+
+        Function.prototype.myBind = function(context) {
+            console.log('context', context)
+            console.log('this', this)
+            let self = this
+            let args = Array.prototype.slice.call(arguments, 1)
+            return function() {
+                let bindArgs = Array.prototype.slice.call(arguments)
+                return self.apply(context, args.concat(bindArgs))
+            }
+        }
+
+        function person() {
+            console.log(this.name)
+            console.log(this.age)
+        }
+        let obj = {
+            name: 'carpe',
+            age: 27,
+        }
+
+        let fn2 = person.myBind(obj)
+
+        fn2(1, 2)
+
+        // Function.prototype.myBind2 = function(context) {
+        //     if (typeof this !== "function") {
+        //         throw new Error('Function.prototype.bind - what is trying to be bound is not callable')
+        //     }
+
+        //     let self = this
+        //     let args = Array.prototype.slice.call(arguments, 1)
+
+        //     let fNOP = function() {}
+        //     let fBound = function() {
+        //         let bindArgs = Array.prototype.slice.call(arguments)
+        //         return self.apply(this instanceof fNOP ? this : context, args.concat(bindArgs))
+        //     }
+        //     fNOP.prototype = this.prototype
+        //     fBound.prototype = new fNOP()
+        //     return fBound
+        // }
+
+        Function.prototype.myBind2 = function(context) {
+            if (typeof this !== "function") {
+                throw new Error('function no')
+            }
+            let self = this
+            let args = Array.prototype.slice(arguments, 1)
+            let fNOP = function() {}
+            let fBound = function() {
+                let bindArgs = Array.prototype.slice.call(arguments)
+                return self.apply(this instanceof fNOP ? this : context, args.concat(bindArgs))
+            }
+            fNOP.prototype = this.prototype
+            fBound.prototype = new fNOP()
+            return fBound
+        }
+
+
+    </script>
+</body>
+
+</html>

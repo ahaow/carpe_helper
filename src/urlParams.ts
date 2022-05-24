@@ -3,7 +3,7 @@
  * @param url 
  * @returns 
  */
-function getUrlParams(url: any) {
+function urlParams(url: any) {
   const reg = /([^?&=]+)=([^?&=]+)/g;
   let obj: any = {};
   url.replace(reg, function() {
@@ -11,3 +11,5 @@ function getUrlParams(url: any) {
   });
   return obj
 }
+
+export default urlParams
